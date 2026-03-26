@@ -1,4 +1,4 @@
-# Kubernetes Cluster 安裝指南
+# Kubernetes Cluster 安裝教學
 
 ## 前置需求 (Prerequisite)
 
