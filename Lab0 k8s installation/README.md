@@ -7,7 +7,8 @@
 - 2048 MB 記憶體（建議 4GB）
 - OS：Ubuntu 24.04
 - 可使用 OVF 檔案建立 VM
-<img width="479" height="128" alt="image" src="https://github.com/user-attachments/assets/06d5075c-7b40-403c-a0b4-16a75ba3e107" />
+
+![prerequisite](image/slide09.png)
 
 ---
 
@@ -17,13 +18,13 @@
 hostnamectl set-hostname {vm name}
 ```
 
-<img width="896" height="173" alt="image" src="https://github.com/user-attachments/assets/fef02707-c8f7-44f4-adb7-fb77cac28be6" />
-
 重新登入以刷新設定，確認 hostname：
 
 ```bash
 hostname
 ```
+
+![set-hostname](image/slide10.png)
 
 ---
 
@@ -32,7 +33,8 @@ hostname
 ```bash
 hostname -I
 ```
-<img width="325" height="155" alt="image" src="https://github.com/user-attachments/assets/26fa0da7-7fd7-4a8e-b10b-6fe6fa07dfc5" />
+
+![check-ip](image/slide11.png)
 
 ---
 
@@ -44,7 +46,7 @@ hostname -I
 sudo vi /etc/hosts
 ```
 
-<img width="614" height="256" alt="image" src="https://github.com/user-attachments/assets/720c6320-9a22-4742-a001-cfeb67b0621c" />
+![hosts](image/slide12.png)
 
 ---
 
@@ -60,7 +62,8 @@ free -h
 ```bash
 sudo sed -i '/^\/swap.img/ s/^/# /' /etc/fstab
 ```
-<img width="614" height="206" alt="image" src="https://github.com/user-attachments/assets/b1bf91db-7d16-4899-ad03-604013af708a" />
+
+![fstab](image/slide13.png)
 
 ---
 
@@ -82,13 +85,15 @@ echo \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 ```
 
+
 ### 5.2 安裝 Docker Engine
 
 ```bash
 sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
-<img width="546" height="233" alt="image" src="https://github.com/user-attachments/assets/cefe890e-cfb5-4aa1-ac3b-041af9995d9a" />
+
+![install-docker](image/slide15.png)
 
 ---
 
@@ -105,7 +110,8 @@ EOF
 sudo modprobe overlay
 sudo modprobe br_netfilter
 ```
-<img width="611" height="171" alt="image" src="https://github.com/user-attachments/assets/b12a7141-5884-4691-974b-8ddeec294518" />
+
+![modules-load](image/slide16.png)
 
 ### 6.2 設定網路參數
 
@@ -118,7 +124,8 @@ EOF
 
 sudo sysctl --system
 ```
-<img width="382" height="234" alt="image" src="https://github.com/user-attachments/assets/b0cac0e6-1aac-48e7-a95e-9fac7cf14923" />
+
+![sysctl](image/slide17.png)
 
 ---
 
@@ -131,7 +138,8 @@ curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.34/deb/Release.key | sudo gpg --
 
 echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.34/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 ```
-<img width="888" height="82" alt="image" src="https://github.com/user-attachments/assets/1ded6a56-1133-41aa-81b1-0f3723da7338" />
+
+![k8s-repo](image/slide18.png)
 
 ### 7.2 安裝 kubelet、kubeadm、kubectl
 
@@ -139,18 +147,21 @@ echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.
 sudo apt-get update
 sudo apt install -y kubelet kubeadm kubectl
 ```
-<img width="716" height="248" alt="image" src="https://github.com/user-attachments/assets/5315b2b2-f152-498d-af8d-ebd5e6bd1778" />
+
+![install-k8s](image/slide19.png)
 
 ### 7.3 鎖定版本（避免自動升級）
 
 ```bash
 sudo apt-mark hold kubelet kubeadm kubectl
 ```
-<img width="612" height="98" alt="image" src="https://github.com/user-attachments/assets/0fd7658a-fc59-4aab-ae70-23ff9c37ad38" />
+
+![hold-version](image/slide20.png)
 
 ---
 
 ## Step 8：設定 Containerd（All Node）
+
 
 ```bash
 sudo sh -c "containerd config default > /etc/containerd/config.toml"
@@ -164,6 +175,7 @@ sudo systemctl restart containerd
 sudo systemctl restart kubelet
 ```
 
+
 ---
 
 ## Step 9：初始化 Cluster（Master Node）
@@ -174,9 +186,10 @@ sudo systemctl restart kubelet
 sudo kubeadm config images pull
 sudo kubeadm init --pod-network-cidr=10.244.0.0/16
 ```
-<img width="668" height="268" alt="image" src="https://github.com/user-attachments/assets/0636b6a3-5ec1-4f5c-8afd-f42846b6e17c" />
 
 > **Checkpoint**：確認初始化成功，並記下 `kubeadm join` 指令的輸出。
+
+![kubeadm-init](image/slide23.png)
 
 ### 9.2 設定 kubeconfig
 
@@ -185,7 +198,8 @@ mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
-<img width="734" height="84" alt="image" src="https://github.com/user-attachments/assets/7d502148-f9b4-4c6f-bd0d-a65161d46363" />
+
+![kubeconfig](image/slide24.png)
 
 ---
 
@@ -197,7 +211,8 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 sudo kubeadm join 172.16.xx.xx:6443 --token XXXXXXX \
   --discovery-token-ca-cert-hash sha256:XXXXXXXXX
 ```
-<img width="754" height="261" alt="image" src="https://github.com/user-attachments/assets/7a0c1079-987d-4ea2-9c18-238ff111800c" />
+
+![join-node](image/slide25.png)
 
 ---
 
@@ -207,7 +222,8 @@ sudo kubeadm join 172.16.xx.xx:6443 --token XXXXXXX \
 kubectl get node
 kubectl get pods -A
 ```
-<img width="658" height="234" alt="image" src="https://github.com/user-attachments/assets/268070c7-e355-4e5d-a45e-267c537960d7" />
+
+![get-node-before-cni](image/slide26.png)
 
 ---
 
@@ -216,7 +232,8 @@ kubectl get pods -A
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/master/manifests/calico.yaml
 ```
-<img width="798" height="232" alt="image" src="https://github.com/user-attachments/assets/c6d91c2b-1ff5-4224-ac54-6dbd2efa2c63" />
+
+![install-calico](image/slide27.png)
 
 安裝後再次確認狀態：
 
@@ -224,14 +241,16 @@ kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/master/m
 kubectl get node
 kubectl get pods -A
 ```
-<img width="627" height="247" alt="image" src="https://github.com/user-attachments/assets/9ab4563e-fc74-4314-8bda-41248bcc99ea" />
+
+![get-node-after-cni](image/slide28.png)
 
 > **Checkpoint**：所有節點應顯示 `Ready`，所有 Pod 應為 `Running`。
 
 ---
 
 ## Demo：建立一個 Pod
-<img width="934" height="186" alt="image" src="https://github.com/user-attachments/assets/d5bebf3b-243f-410e-ad59-148cda7f006d" />
+
+![demo-pod](image/slide29.png)
 
 ### 作業 (HW)
 
@@ -255,6 +274,7 @@ EXPOSE 80
 RUN echo "<h1>學號 from k8s-pod</h1>" > /var/www/html/index.html
 CMD ["apache2ctl", "-D", "FOREGROUND"]
 ```
-<img width="777" height="112" alt="image" src="https://github.com/user-attachments/assets/ce77d74c-6688-4600-8e2f-6cb35086c142" />
+
+![hw-demo](image/slide30.png)
 
 > **Checkpoint**：確認 Pod 成功運行。
