@@ -1,7 +1,7 @@
 # 114-2 雲端系統實務與開發
 ## k8s-document
-- [Lab0 k8s installation](https://github.com/CYCU-CDLAB/1142-k8s-document/blob/main/Lab0%20k8s%20installation/README.md)
-- Lab1
+- [Lab0 K8s Installation](Lab0%20k8s%20installation/k8s_installation.md)
+- [Lab1 Pod / ReplicaSet / Deployment](Lab1%20deployment/Lab1.md)
 - Lab2
 - Lab3
 - Lab4

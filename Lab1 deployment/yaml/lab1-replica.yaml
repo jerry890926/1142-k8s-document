@@ -1,0 +1,36 @@
+apiVersion: apps/v1              # 使用 apps/v1 API（ReplicaSet 屬於 apps API 群組）
+kind: ReplicaSet                 # 資源種類：ReplicaSet（負責維持 Pod 數量）
+metadata:                        # 物件基本資訊
+  name: lab1-{學號}-rs         # ReplicaSet 名稱（整個 cluster 內唯一）
+spec:                            # ReplicaSet 的規格設定
+  replicas: 3                    # 希望維持 3 個 Pod（Desired State）
+  selector:                      # 用來「挑選」屬於這個 RS 的 Pod
+    matchLabels:                 # 條件：標籤必須符合
+      app: lab1-rs-pod           # 只要 label app=lab1-rs-pod 的 Pod 都屬於這個 RS
+  template:                      # Pod 範本（如果 Pod 不夠，RS 會用這個範本建立新的）
+    metadata:                    # Pod 的 metadata
+      labels:                    # 這些 label 很重要（必須與 selector 相符）
+        app: lab1-rs-pod         # 必須與 selector.matchLabels 一致，否則 RS 無法管理
+        version: v1              # 自訂版本標籤（可用於分流、觀察版本）
+    spec:                        # Pod 的規格
+      containers:                # Pod 內的容器列表
+      - name: lab1-rs-pod        # 容器名稱（Pod 內部識別用）
+        image: {docker_repo}:lab1  # 使用的 Docker Image（來自 docker hub repository）
+        ports:
+        - containerPort: 80      # 容器內部監聽的 port（資訊用途，給 K8s 參考）
+        env:
+        - name: POD_NAME
+          valueFrom: { fieldRef: { fieldPath: metadata.name } }
+        - name: POD_IP
+          valueFrom: { fieldRef: { fieldPath: status.podIP } }
+        - name: POD_NAMESPACE
+          valueFrom: { fieldRef: { fieldPath: metadata.namespace } }
+        - name: NODE_NAME
+          valueFrom: { fieldRef: { fieldPath: spec.nodeName } }
+        - name: NODE_IP
+          valueFrom: { fieldRef: { fieldPath: status.hostIP } }
+        - name: APP_VERSION
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.labels['version']
+
