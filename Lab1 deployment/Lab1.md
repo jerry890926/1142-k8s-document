@@ -16,6 +16,7 @@ cd web
 vim Dockerfile
 ```
 ![4.1](img/4_1.png)
+
 **[Dockerfile](web/Dockerfile)：**
 
 ```dockerfile
