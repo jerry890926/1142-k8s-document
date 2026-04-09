@@ -79,7 +79,7 @@ vim lab1-pod.yaml
 ```
 ![12.1](img/12_1.png)
 
-### [lab1-pod.yaml](lab1/lab1-pod.yaml)
+### [lab1-pod.yaml](yaml/lab1-pod.yaml)
 ![12.2](img/12_2.png)
 
 ### 2.2 部署 Pod 並驗證
