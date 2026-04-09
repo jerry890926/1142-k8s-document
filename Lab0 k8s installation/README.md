@@ -8,7 +8,7 @@
 - OS：Ubuntu 24.04
 - 可使用 OVF 檔案建立 VM
 
-![prerequisite](image/slide09.png)
+![prerequisite](img/slide09.png)
 
 ---
 
@@ -24,7 +24,7 @@ hostnamectl set-hostname {vm name}
 hostname
 ```
 
-![set-hostname](image/slide10.png)
+![set-hostname](img/slide10.png)
 
 ---
 
@@ -34,7 +34,7 @@ hostname
 hostname -I
 ```
 
-![check-ip](image/slide11.png)
+![check-ip](img/slide11.png)
 
 ---
 
@@ -46,7 +46,7 @@ hostname -I
 sudo vi /etc/hosts
 ```
 
-![hosts](image/slide12.png)
+![hosts](img/slide12.png)
 
 ---
 
@@ -63,7 +63,7 @@ free -h
 sudo sed -i '/^\/swap.img/ s/^/# /' /etc/fstab
 ```
 
-![fstab](image/slide13.png)
+![fstab](img/slide13.png)
 
 ---
 
@@ -93,7 +93,7 @@ sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 
-![install-docker](image/slide15.png)
+![install-docker](img/slide15.png)
 
 ---
 
@@ -111,7 +111,7 @@ sudo modprobe overlay
 sudo modprobe br_netfilter
 ```
 
-![modules-load](image/slide16.png)
+![modules-load](img/slide16.png)
 
 ### 6.2 設定網路參數
 
@@ -125,7 +125,7 @@ EOF
 sudo sysctl --system
 ```
 
-![sysctl](image/slide17.png)
+![sysctl](img/slide17.png)
 
 ---
 
@@ -139,7 +139,7 @@ curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.34/deb/Release.key | sudo gpg --
 echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.34/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 ```
 
-![k8s-repo](image/slide18.png)
+![k8s-repo](img/slide18.png)
 
 ### 7.2 安裝 kubelet、kubeadm、kubectl
 
@@ -148,7 +148,7 @@ sudo apt-get update
 sudo apt install -y kubelet kubeadm kubectl
 ```
 
-![install-k8s](image/slide19.png)
+![install-k8s](img/slide19.png)
 
 ### 7.3 鎖定版本（避免自動升級）
 
@@ -156,7 +156,7 @@ sudo apt install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
 ```
 
-![hold-version](image/slide20.png)
+![hold-version](img/slide20.png)
 
 ---
 
@@ -189,7 +189,7 @@ sudo kubeadm init --pod-network-cidr=10.244.0.0/16
 
 > **Checkpoint**：確認初始化成功，並記下 `kubeadm join` 指令的輸出。
 
-![kubeadm-init](image/slide23.png)
+![kubeadm-init](img/slide23.png)
 
 ### 9.2 設定 kubeconfig
 
@@ -199,7 +199,7 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
-![kubeconfig](image/slide24.png)
+![kubeconfig](img/slide24.png)
 
 ---
 
@@ -212,7 +212,7 @@ sudo kubeadm join 172.16.xx.xx:6443 --token XXXXXXX \
   --discovery-token-ca-cert-hash sha256:XXXXXXXXX
 ```
 
-![join-node](image/slide25.png)
+![join-node](img/slide25.png)
 
 ---
 
@@ -223,7 +223,7 @@ kubectl get node
 kubectl get pods -A
 ```
 
-![get-node-before-cni](image/slide26.png)
+![get-node-before-cni](img/slide26.png)
 
 ---
 
@@ -233,7 +233,7 @@ kubectl get pods -A
 kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/master/manifests/calico.yaml
 ```
 
-![install-calico](image/slide27.png)
+![install-calico](img/slide27.png)
 
 安裝後再次確認狀態：
 
@@ -242,7 +242,7 @@ kubectl get node
 kubectl get pods -A
 ```
 
-![get-node-after-cni](image/slide28.png)
+![get-node-after-cni](img/slide28.png)
 
 > **Checkpoint**：所有節點應顯示 `Ready`，所有 Pod 應為 `Running`。
 
@@ -250,7 +250,7 @@ kubectl get pods -A
 
 ## Demo：建立一個 Pod
 
-![demo-pod](image/slide29.png)
+![demo-pod](img/slide29.png)
 
 ### 作業 (HW)
 
@@ -275,6 +275,6 @@ RUN echo "<h1>學號 from k8s-pod</h1>" > /var/www/html/index.html
 CMD ["apache2ctl", "-D", "FOREGROUND"]
 ```
 
-![hw-demo](image/slide30.png)
+![hw-demo](img/slide30.png)
 
 > **Checkpoint**：確認 Pod 成功運行。
