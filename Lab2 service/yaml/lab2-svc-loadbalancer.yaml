@@ -1,0 +1,18 @@
+apiVersion: v1                 # 使用 Kubernetes core/v1 API（Service 屬於 core API）
+kind: Service                  # 資源種類：Service（提供穩定的網路存取入口）
+
+metadata:                      # Service 的基本資訊
+  name: lab2-loadbalancer      # Service 名稱
+
+spec:                          # Service 的規格設定
+  type: LoadBalancer           # Service 類型：LoadBalancer（提供外部存取）
+
+  selector:                    # 用來選擇要轉發流量的 Pod
+    app: lab2-deploy-pod       # 只要 Pod 的 label 是 app=lab2-deploy-pod 就會被這個 Service 管理
+
+  ports:                       # Service 對外提供的 port 設定（可以有多個）
+  - name: http                 # 這個 port 的名稱（方便識別與多 port 設定）
+    port: 80                   # Service 在 cluster 內暴露的 port
+    targetPort: 80             # 轉發到 Pod container 的 port
+
+
