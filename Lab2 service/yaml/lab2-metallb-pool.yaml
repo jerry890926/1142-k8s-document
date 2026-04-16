@@ -1,0 +1,18 @@
+apiVersion: metallb.io/v1beta1                 # MetalLB 自訂資源（CRD）的 API 版本
+kind: IPAddressPool                            # 資源種類：IPAddressPool（定義可分配給 LoadBalancer 的 IP 範圍）
+metadata:                                      # 物件基本資訊
+  name: lab2-pool                              # 這個 IP 池的名稱（後面會被 L2Advertisement 參照）
+  namespace: metallb-system                    # MetalLB 通常部署在 metallb-system namespace
+spec:                                          # 規格設定
+  addresses:                                   # 可分配的 IP 清單（可多段、可 CIDR、可範圍）
+  - 192.168.254.190-192.168.254.200            # 指定一段 IP 範圍：從 .190 到 .200（MetalLB 會從中挑一個發給 LB Service）
+---
+apiVersion: metallb.io/v1beta1                 # MetalLB 自訂資源（CRD）的 API 版本
+kind: L2Advertisement                          # 資源種類：L2Advertisement（告訴 MetalLB 用 L2/ARP 的方式宣告 IP）
+metadata:                                      # 物件基本資訊
+  name: lab2-l2                                # 這個 L2 宣告規則的名稱
+  namespace: metallb-system                    # 同樣放在 metallb-system
+spec:                                          # 規格設定
+  ipAddressPools:                              # 這個 L2Advertisement 要「對哪些 IP Pool 生效」
+  - lab2-pool                                  # 指定使用上面建立的 IPAddressPool：lab2-pool
+

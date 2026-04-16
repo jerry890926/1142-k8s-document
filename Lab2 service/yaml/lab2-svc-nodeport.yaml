@@ -1,0 +1,18 @@
+apiVersion: v1                  # 使用 Kubernetes core/v1 API（Service 屬於 core API）
+kind: Service                   # 資源種類：Service（提供穩定的服務入口與負載分流）
+
+metadata:                       # Service基本資訊
+  name: lab2-nodeport           # Service 名稱（之後可用 DNS：lab2-nodeport 來存取）
+
+spec:                           # Service 的規格設定
+  type: NodePort                # Service 類型：NodePort（會在每個 Node 開一個對外的 port）
+
+  selector:                     # 選擇器：決定這個 Service 要把流量導到哪些 Pod
+    app: lab2-deploy-pod        # 會把流量導到 labels 包含 app=lab2-pod 的 Pod
+
+  ports:                        # 這個 Service 提供哪些 port（可多個）
+  - name: http                  # 這個 port 的名稱（純標籤，用來辨識/對應，例如 http）
+    port: 80                    # Service 在「叢集內」提供的 port（cluster 內用 lab2-nodeport:80）
+    targetPort: 80              # Service 轉發到 Pod 的哪個 port（Pod container 內實際聽的 port）
+    nodePort: 30082             # 每個 Node 對「叢集外」開的 port（外部可用 NodeIP:30082 進來）
+
