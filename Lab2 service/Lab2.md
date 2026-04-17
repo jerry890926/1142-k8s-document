@@ -50,8 +50,8 @@ vim [lab2-svc-clusterip.yaml](yaml/lab2-svc-clusterip.yaml)：
 ```bash
 kubectl apply -f lab2-deploy.yaml
 kubectl apply -f lab2-svc-clusterip.yaml
-kubectl get service –o wide
-kubectl get deploy –o wide
+kubectl get service -o wide
+kubectl get deploy -o wide
 kubectl port-forward svc/lab2-clusterip 30082:80 --address 0.0.0.0
 ```
 
@@ -87,7 +87,7 @@ vim [lab2-svc-nodeport.yaml](yaml/lab2-svc-nodeport.yaml)：
 
 ```bash
 kubectl apply -f lab2-svc-nodeport.yaml
-kubectl get service –o wide
+kubectl get service -o wide
 curl {master_ip}:30082
 ```
 
@@ -115,7 +115,7 @@ vim [lab2-svc-loadbalancer.yaml](yaml/lab2-svc-loadbalancer.yaml)：
 
 ```bash
 kubectl apply -f lab2-svc-loadbalancer.yaml
-kubectl get service –o wide
+kubectl get service -o wide
 ```
 
 ![LoadBalancer pending](img/20.png)
@@ -135,7 +135,7 @@ vim [lab2-metallb-pool.yaml](yaml/lab2-metallb-pool.yaml)：
 
 ```bash
 kubectl apply -f lab2-metallb-pool.yaml
-kubectl get service –o wide
+kubectl get service -o wide
 ```
 
 ![LoadBalancer ready](img/23.png)
