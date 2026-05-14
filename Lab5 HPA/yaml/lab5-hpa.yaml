@@ -1,0 +1,40 @@
+apiVersion: autoscaling/v2          # 使用 autoscaling API 的 v2 版本（支援更多 HPA 功能，例如 behavior）
+kind: HorizontalPodAutoscaler       # 資源類型：HPA（水平自動擴展 Pod）
+metadata:
+  name: lab5-hpa                    # HPA 物件名稱
+  namespace: lab5                   # 所在 namespace（HPA 會只監控這個 namespace 內的資源）
+
+spec:
+  scaleTargetRef:                   # 指定 HPA 要監控並調整副本數的目標物件
+    apiVersion: apps/v1             # 目標物件的 API 版本
+    kind: Deployment                # 目標物件種類（這裡是 Deployment）
+    name: lab5-11477027-deploy           # 要自動擴展的 Deployment 名稱
+
+  minReplicas: 1                    # Pod 最少維持 1 個（HPA 不會縮到 0）
+  maxReplicas: 5                    # Pod 最多可以擴展到 5 個
+
+  metrics:                          # 定義 HPA 監控的指標
+  - type: Resource                  # 指標類型：Resource（CPU / Memory）
+    resource:
+      name: cpu                     # 監控 CPU 使用率
+      target:
+        type: Utilization           # 指標型態：使用率百分比
+        averageUtilization: 50      # 目標 CPU 平均使用率為 50%
+                                    # 如果 Pod 平均 CPU > 50%，HPA 會擴展 Pod
+
+  behavior:                         # 定義 HPA 擴展與縮減的行為策略（autoscaling/v2 才有）
+
+    scaleUp:                        # Pod 增加時的規則
+      stabilizationWindowSeconds: 0 # scale up 不等待，馬上評估並擴展
+      policies:                     # 擴展策略列表
+      - type: Pods                  # 擴展單位：Pods
+        value: 2                    # 每次最多增加 2 個 Pod
+        periodSeconds: 3            # 每 3 秒最多執行一次這個擴展策略
+
+    scaleDown:                      # Pod 減少時的規則
+      stabilizationWindowSeconds: 2 # 縮減前會觀察 2 秒，避免頻繁縮放（抖動）
+      policies:                     # 縮減策略
+      - type: Pods                  # 縮減單位：Pods
+        value: 1                    # 每次最多減少 1 個 Pod
+        periodSeconds: 3            # 每 3 秒最多執行一次縮減
+
