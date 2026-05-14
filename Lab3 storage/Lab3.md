@@ -73,7 +73,7 @@ http://{masterip}:30083
 
 > **截圖一**：需要截圖網址、Lab3 寫入畫面
 
-![Localhost web](img/9.png)
+![web](img/9.png)
 
 ### 5. 測試 Pod 重建
 
