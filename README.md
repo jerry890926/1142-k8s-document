@@ -6,5 +6,5 @@
 - [Lab2 Service](Lab2%20service/Lab2.md)
 - [Lab3 Namespace / Storage(PV, PVC) / StatefulSet](Lab3%20storage/Lab3.md)
 - Lab4
-- Lab5
+- [Lab5 HPA](Lab5%20HPA/Lab5.md)
 - Lab6
