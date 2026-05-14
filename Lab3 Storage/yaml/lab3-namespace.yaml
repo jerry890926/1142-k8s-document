@@ -1,5 +1,0 @@
-apiVersion: v1        # 使用 Kubernetes 的 API 版本，Namespace 屬於 core API (v1)
-kind: Namespace       # 資源種類，這裡要建立的是一個 Namespace（命名空間）
-metadata:             # 物件的基本資訊（名稱、標籤、註解等都放在這裡）
-  name: lab3          # Namespace 的名稱，建立後所有資源可以放在這個 lab3 命名空間中
-
