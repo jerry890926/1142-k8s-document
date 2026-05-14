@@ -33,8 +33,8 @@ docker push {repo}:lab3
 ```bash
 mkdir lab3
 cd lab3
-vim [lab3-namespace.yaml](yaml/lab3-namespace.yaml)
-vim [lab3-svc.yaml]yaml/lab3-svc.yaml)
+vim lab3-namespace.yaml
+vim lab3-svc.yaml
 ```
 
 對應的 YAML 檔案：
