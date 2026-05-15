@@ -1,4 +1,4 @@
-# Lab3 Namespace / Storage(PV, PVC) / StatefulSet
+# Lab3 Storage(PV, PVC) / StatefulSet
 ---
 
 ## 一、Build image
